@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
         // Tokenizing String
         char* token = strtok(cmd, " ");
-        while(token) {
+        while(token != NULL) {
             buffer[index] = (char*)malloc(sizeof(token));
             strcpy(buffer[index], token);
             token = strtok(NULL, " ");
