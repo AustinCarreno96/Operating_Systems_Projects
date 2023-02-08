@@ -1,15 +1,20 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 
-public class Main {
-
+public class Driver {
 
     public static void main(String[] args) throws InterruptedException {
-        boolean flag = true;
-        ArrayList<Integer> list = new ArrayList<>();
+        LinkedList<Integer> list = new LinkedList<>();
+        PC pc = new PC(list);
 
-        Thread producer = new Thread(new Producer(list));
-        Thread consumer = new Thread(new Consumer(list));
+        Thread producer = new Thread(() -> {
+            try { pc.produce(); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        });
+        Thread consumer = new Thread(() -> {
+            try { pc.consume(); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+        });
 
         producer.start();
         consumer.start();
@@ -17,15 +22,4 @@ public class Main {
         producer.join();
         consumer.join();
     }
-
-    public static boolean checkIfEmpty(int[] arr) {
-        for(int i : arr) {
-            if(i >= 0) { return false; }
-        }
-        return true;
-    }
-
-    public static boolean getRandomBoolean() {
-        return Math.random() > 0.5;
-    }
-}// end Main class
+}// end Driver class
